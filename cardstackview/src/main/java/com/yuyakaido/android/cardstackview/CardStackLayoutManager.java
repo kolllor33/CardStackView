@@ -16,6 +16,7 @@ import com.yuyakaido.android.cardstackview.internal.CardStackState;
 import com.yuyakaido.android.cardstackview.internal.DisplayUtil;
 
 import java.util.List;
+import java.util.Random;
 
 public class CardStackLayoutManager
         extends RecyclerView.LayoutManager
@@ -23,6 +24,7 @@ public class CardStackLayoutManager
 
     private final Context context;
     private boolean isSwipeEnabled = true;
+    private boolean isRandomAngle = false;
 
     private CardStackListener listener = CardStackListener.DEFAULT;
     private CardStackSetting setting = new CardStackSetting();
@@ -239,6 +241,7 @@ public class CardStackLayoutManager
             if (i == state.topPosition) {
                 updateTranslation(child);
                 resetScale(child);
+                //update rotation
                 updateRotation(child);
                 updateOverlay(child);
             } else {
@@ -325,12 +328,22 @@ public class CardStackLayoutManager
     }
 
     private void updateRotation(View view) {
-        float degree = state.dx * setting.maxDegree / getWidth() * state.proportion;
-        view.setRotation(degree);
+        if(isRandomAngle() && state.proportion != 0) {
+            float degree = state.dx * setting.maxDegree / getWidth() * state.proportion;
+            view.setRotation(degree);
+        }else if(!isRandomAngle()){
+            float degree = state.dx * setting.maxDegree / getWidth() * state.proportion;
+            view.setRotation(degree);
+        }
     }
 
     private void resetRotation(View view) {
-        view.setRotation(0.0f);
+        if(!isRandomAngle()) {
+            view.setRotation(0.0f);
+        }else{
+            if(view.getRotation() == 0.0)
+                view.setRotation(getRandomRotation());
+        }
     }
 
     private void updateOverlay(View view) {
@@ -514,5 +527,23 @@ public class CardStackLayoutManager
 
     public boolean isSwipeEnabled() {
         return isSwipeEnabled;
+    }
+
+    public void setRandomAngle(boolean randomAngle) {
+        isRandomAngle = randomAngle;
+    }
+
+    public boolean isRandomAngle() {
+        return isRandomAngle;
+    }
+
+    private int getRandomRotation(){
+        Random r = new Random();
+        double randomValue = map(r.nextInt(4), 0, 4, -1, 1);
+        return (int) Math.round(randomValue * 2 * Math.PI); //convert randomValue to a angle
+    }
+
+    private double map(double x, double in_min, double in_max, double out_min, double out_max){
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 }

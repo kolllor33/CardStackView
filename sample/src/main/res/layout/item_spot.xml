@@ -16,7 +16,7 @@
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/item_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="500dp"
         android:scaleType="centerCrop"
         app:riv_corner_radius="8dp"/>
 
@@ -27,6 +27,10 @@
         android:layout_gravity="bottom"
         android:padding="16dp"
         android:background="@drawable/gradation_black">
+        <!--<VideoView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:id="@+id/videoviewer"/>-->
 
         <TextView
             android:id="@+id/item_name"
@@ -43,6 +47,13 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="20sp"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/scoll">
+
+        </ScrollView>
 
     </LinearLayout>
 

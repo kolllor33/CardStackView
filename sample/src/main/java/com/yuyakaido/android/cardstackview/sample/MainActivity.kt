@@ -136,8 +136,8 @@ class MainActivity : AppCompatActivity(), CardStackListener {
     }
 
     private fun initialize() {
-        manager.setStackFrom(StackFrom.None)
-        manager.setVisibleCount(3)
+        manager.setStackFrom(StackFrom.Bottom)
+        manager.setVisibleCount(5)
         manager.setTranslationInterval(8.0f)
         manager.setScaleInterval(0.95f)
         manager.setSwipeThreshold(0.3f)
@@ -145,6 +145,9 @@ class MainActivity : AppCompatActivity(), CardStackListener {
         manager.setDirections(Direction.HORIZONTAL)
         manager.setCanScrollHorizontal(true)
         manager.setCanScrollVertical(true)
+//        manager.setSwipeEnabled(false)
+        //setup random angles
+        manager.isRandomAngle = true
         cardStackView.layoutManager = manager
         cardStackView.adapter = adapter
         cardStackView.itemAnimator.apply {
